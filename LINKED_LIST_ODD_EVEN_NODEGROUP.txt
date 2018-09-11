@@ -1,0 +1,66 @@
+445 
+
+You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Follow up:
+What if you cannot modify the input lists? In other words, reversing the lists is not allowed.
+
+Example:
+
+Input: (7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 8 -> 0 -> 7
+
+Seen this question in a real interview before?
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        ListNode* l=head;
+        int c=0;
+        while(l!=NULL){l=l->next;c++;}
+        if(c<=2) return head;
+        ListNode* p=head;
+        ListNode* q=(head->next);
+        ListNode* r=(head->next->next);
+        ListNode* link=q;
+        
+        while(r!=NULL&&r->next!=NULL)
+        {
+            p->next=q->next;
+            q->next=r->next; 
+            if((r->next->next)!=NULL)r=r->next->next; else r=NULL;
+            q=q->next;
+            p=p->next;
+            
+        }
+        if(c%2!=0)
+        { p->next=link;
+            int temp=p->next->val;
+            p->next->val=r->val;
+            p=p->next;
+        while(p->next!=NULL)
+        {
+            int temp1=p->next->val;
+            p->next->val=temp;
+            temp=temp1;
+            p=p->next;
+            
+        }
+        }
+        else{    
+        p->next=link;
+        }
+        
+    return head;}
+};

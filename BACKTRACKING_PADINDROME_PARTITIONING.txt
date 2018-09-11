@@ -1,0 +1,88 @@
+﻿
+
+Given a string s, partition s such that every string of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+
+For example, given s = "aab",
+Return
+
+  [
+    ["a","a","b"]
+    ["aa","b"],
+  ]
+
+    Ordering the results in the answer :
+
+    Entry i will come before Entry j if :
+
+        len(Entryi[0]) < len(Entryj[0]) OR
+        (len(Entryi[0]) == len(Entryj[0]) AND len(Entryi[1]) < len(Entryj[1])) OR
+        *
+        *
+        *
+        (len(Entryi[0]) == len(Entryj[0]) AND … len(Entryi[k] < len(Entryj[k]))
+
+In the given example,
+["a", "a", "b"] comes before ["aa", "b"] because len("a") < len("aa")
+
+
+
+
+
+
+
+
+
+
+
+
+map<pair<int,int>,int>hash1;
+string s="" ;
+void fun(vector<vector<string>>&x,int i,vector<string> &y)
+{
+    for(int j=i;j<s.size();j++)
+    {   
+        if(hash1[make_pair(i,j)]==1)
+        {
+        y.push_back(s.substr(i,j-i+1));
+        if(j==s.size()-1) x.push_back(y);
+        
+        fun(x,j+1,y);
+        y.pop_back();
+        }
+    }
+  
+}
+
+vector<vector<string> > Solution::partition(string A) {
+    vector<vector<string>>x;
+    map<pair<int,int>,int>hash;
+    s=A;
+    vector<vector<int>>arr(A.size(),vector<int>(A.size(),0));
+   int set=1;
+    for(int i=0;i<A.size();i++){ hash[make_pair(i,i)]=1;arr[i][i]=1;}
+    for(int i=0;i<A.size();i++)
+    {   
+    int j,k;
+        for( j=0, k=i+1;j<A.size()&&k<A.size();j++,k++)
+        {
+            if(A[j]==A[k]&&set==1){arr[j][k]=1;hash[make_pair(j,k)]=1;}
+            if(A[j]==A[k]&&arr[j+1][k-1]==1){arr[j][k]=1;hash[make_pair(j,k)]=1;}
+        
+    }set=0;
+    }
+           /* for(int i=0;i<A.size();i++)
+        {
+            for(int j=0;j<A.size();j++){cout<<arr[i][j]<<" ";}
+           cout<<"\n"; }
+      */
+      x.clear();     
+    hash1=hash;
+vector<string>y;
+    fun(x,0,y);
+
+    // cout<<hash[make_pair(1,3)];   
+    
+    return x;
+}

@@ -1,0 +1,104 @@
+    Problem
+    Submissions
+    Leaderboard
+    Discussions
+    Editorial 
+
+There are values to represent nodes in a graph. They are divided into two sets and . Each set has exactly values. Set is represent by . can contain any value between to (inclusive). Set is represented by . can contain any value between to (inclusive). Same value can be chosen any number of times.
+
+Here represents the edges of the graph.
+
+Your task is to print the number of vertices in the smallest and the largest connected components of the graph.
+
+Note Single nodes should not be considered in the answer.
+
+For more clarity look at the following figure.
+
+Alt text
+
+For the above graph smallest connected component is 7 and largest connected component is 17.
+
+Input Format
+
+First line contains an integer .
+Each of the next lines contain two space-separated integers, line contains and .
+
+Constraints
+
+Output Format
+
+Print two space separated integers, the number of vertices in the smallest and the largest components.
+
+Sample Input
+
+5
+1 6 
+2 7
+3 8
+4 9
+2 6
+
+Sample Output
+
+2 4
+
+Explanation
+
+The number of vertices in the smallest connected component in the graph is i.e. either or .
+The number of vertices in the largest connected component in the graph is i.e. . 
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include<limits.h>
+using namespace std;
+long int min1=INT_MAX;
+long int max1=INT_MIN;
+
+int find(int a,vector<int>&parent)
+{
+  if(parent[a]==a) return a;
+  else {return parent[a]=find(parent[a],parent);}
+}
+void Union(int u,int v,vector<int> &p,vector<int> &component)
+{
+  int pu=find(u,p);
+  int pv=find(v,p);
+  if(pu==pv) return;
+  else
+  {
+    p[pu]=pv;
+    component[pv]+=component[pu];
+  }
+}
+
+
+
+int main() {
+   int t;
+  cin>>t;
+  vector<int>parent(2*t+1);
+  vector<int>component(2*t+1);
+  
+  for(int i=1;i<=2*t;i++)
+      {   
+        parent[i]=i;
+        component[i]=1;
+      }
+  for(int i=0;i<t;i++)
+    {
+        int x,y;
+        cin>>x>>y;
+        Union(x,y,parent,component);
+    }
+    for(int i=1;i<=2*t;i++)
+    {
+      int temp=component[find(i,parent)];
+      if(min1>temp&&temp>1)min1=temp;
+      if(max1<temp)max1=temp;}
+  cout<<min1<<" "<<max1;    
+  return 0;
+}

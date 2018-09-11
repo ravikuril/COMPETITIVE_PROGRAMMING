@@ -1,0 +1,44 @@
+ou need to find the largest value in each row of a binary tree.
+
+Example:
+
+Input: 
+
+          1
+         / \
+        3   2
+       / \   \  
+      5   3   9 
+
+Output: [1, 3, 9]
+
+
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+        vector<int >r;
+        vector<int> largestValues(TreeNode* root) {
+        call(root,1);
+            return r;
+    }
+    void call(TreeNode* root,int l)
+    {
+        if(!root) return ;
+        if(r.size()<l)r.push_back(root->val);
+        else if(r[l-1]<root->val)r[l-1]=root->val;
+        call(root->left,l+1);
+        call(root->right,l+1);
+    }
+};

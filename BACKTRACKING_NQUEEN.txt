@@ -1,0 +1,76 @@
+Queens
+
+The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
+
+N Queens: Example 1
+
+Given an integer n, return all distinct solutions to the n-queens puzzle.
+
+Each solution contains a distinct board configuration of the n-queens’ placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
+
+For example,
+There exist two distinct solutions to the 4-queens puzzle:
+
+[
+ [".Q..",  // Solution 1
+  "...Q",
+  "Q...",
+  "..Q."],
+
+ ["..Q.",  // Solution 2
+  "Q...",
+  "...Q",
+  ".Q.."]
+]
+
+
+
+
+vector<vector<string>>y;
+char c='.';
+char q='Q';
+int n;
+vector<int>rows;
+void fun(int i)
+{
+    if(i==n)
+      {
+          vector<string>temp;
+          for(int d=0;d<n;d++)
+          { 
+            string t="";
+            for(int s=0;s<n;s++)
+            {
+                if(rows[d]==s) t+=q;
+                else t+=c;
+              
+            }
+            temp.push_back(t);
+          }
+          y.push_back(temp);
+          return;
+      }
+      
+    for(int j=0;j<n;j++)
+    {
+        rows[i]=j;
+        int col=0;
+        for(int k=0;k<i;k++)
+        {
+            if(rows[k]-rows[i]==i-k || rows[k]==j || rows[k]-rows[i]==k-i)   
+            {col=1; break;}
+        
+        }
+      if(!col)    
+      fun(i+1);
+      
+    }
+  }
+
+vector<vector<string> > Solution::solveNQueens(int A) {
+  n=A;
+  y.clear();
+  rows=vector<int>(A);
+    fun(0);
+  return y;
+}

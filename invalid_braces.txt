@@ -1,0 +1,46 @@
+Write a program to validate if the input string has redundant braces?
+Return 0/1
+
+0 -> NO
+1 -> YES
+
+
+
+int Solution::braces(string A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    stack<string >s;
+    string s1="((";
+    string s2="(";
+    string  s3=")";
+    string x="",y="",z="";
+    
+    x=+A[0];y+=A[1];z+=A[2];
+    if(x==s2&&z==s3) return 1;
+   
+   for(int i=1;i<A.size();i++)
+   {
+        string x="",y="",z="";
+    
+       x=+A[i];y+=A[i+1];z+=A[i+2];
+       if(x==s2&&z==s3) return 1;
+       
+        string a="";
+    
+        a+=A[i];
+        string b="";
+        b+=A[i-1];
+        string c="";
+        c+=A[i+1];
+       if(a==s2&&b==s2) {s.push(s1);continue;}
+       if(a==s2&&b!=s2 ){s.push(s2);continue;}
+       
+       if(a==s3&&c==s3){if(!s.empty()&&s.top()==s1) return 1;}
+       if(a==s3&&c!=s3){if(!s.empty())s.pop();}
+      
+       
+   } 
+   return 0;
+}

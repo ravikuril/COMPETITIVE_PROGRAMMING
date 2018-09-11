@@ -1,0 +1,86 @@
+There is an m by n grid with a ball. Given the start coordinate (i,j) of the ball, 
+you can move the ball to adjacent cell or cross the grid boundary in four directions 
+(up, down, left, right). However, you can at most move N times. Find out the number of
+ paths to move the ball out of grid boundary. The answer may be very large, return it after
+ mod 10^9 + 7.
+
+Example 1:
+Input:m = 2, n = 2, N = 2, i = 0, j = 0
+Output: 6
+Explanation:
+
+Example 2:
+Input:m = 1, n = 3, N = 3, i = 0, j = 1
+Output: 12
+Explanation:
+
+Note:
+Once you move the ball out of boundary, you cannot move it back.
+The length and height of the grid is in range [1,50].
+N is in range [0,50].
+
+
+class Solution {
+public:
+    int findPaths(int m, int n, int N, int i, int j) {
+        vector<vector<vector < int > > > vec (m,vector<vector < int > > (n,vector< int >(N+1,0)));
+        vector<vector <int > >  vect (m,vector<int>(n,0));
+        int x=1000000007;
+        if(m==1 and n==1){vect[m-1][n-1]=4;}
+        if(m==1 and n>1) for(int e=1;e<=n-1;e++){vect[0][0]=3;vect[0][e]=2;vect[0][n-1]=3;}         
+        if(n==1 and m>1) for(int e=1;e<=m-1;e++){vect[0][0]=3;vect[e][0]=2;vect[m-1][0]=3;}
+        else if(m>1 and n>1 ){
+            
+            
+            for(int l=1;l<m;l++)
+            {
+              vect[l][0]=1;      
+              vect[l][n-1]=1;      
+            
+            }
+            for(int l=1;l<n;l++)
+            {
+              vect[0][l]=1;      
+              vect[m-1][l]=1;      
+            
+            }
+            vect[0][0]=2;
+            vect[m-1][n-1]=2;
+            vect[0][n-1]=2;
+            vect[m-1][0]=2;
+        }
+        
+        
+        for(int a=0;a<N;a++)
+        {
+            for(int b=0;b<m;b++)
+            {
+              for(int c=0;c<n;c++)
+              {
+                if(a==0)
+                { 
+                vec[b][c][a]=vect[b][c];
+                   
+                }
+                if(a>0){
+                    vec[b][c][a]=vect[b][c];
+                if(b-1>=0){vec[b][c][a]=((vec[b][c][a]%x)+(vec[b-1][c][a-1]%x))%x;}
+                if(c-1>=0){vec[b][c][a]=((vec[b][c][a]%x)+(vec[b][c-1][a-1]%x))%x;}
+                if(b+1<=m-1){vec[b][c][a]=((vec[b][c][a]%x)+(vec[b+1][c][a-1]%x))%x;}
+                if(c+1<=n-1){vec[b][c][a]=((vec[b][c][a]%x)+(vec[b][c+1][a-1]%x))%x;}
+                }
+            }        
+            }                
+
+           
+        }
+            
+        if(N==0) return 0;
+        if(N==1){return vect[i][j];}
+        else
+        {
+            return vec[i][j][N-1];
+    
+        }    
+    }
+};

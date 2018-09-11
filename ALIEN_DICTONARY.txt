@@ -1,0 +1,109 @@
+
+Given a sorted dictionary of an alien language, find order of characters
+4.1
+
+Given a sorted dictionary (array of words) of an alien language, find order of characters in the language.
+
+Examples:
+
+Input:  words[] = {"baa", "abcd", "abca", "cab", "cad"}
+Output: Order of characters is 'b', 'd', 'a', 'c'
+Note that words are sorted and in the given language "baa" 
+comes before "abcd", therefore 'b' is before 'a' in output.
+Similarly we can find other orders.
+
+Input:  words[] = {"caa", "aaa", "aab"}
+Output: Order of characters is 'c', 'a', 'b'
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+
+The idea is to create a graph of characters and then find topological sorting of the created graph. Following are the detailed steps.
+
+1) Create a graph g with number of vertices equal to the size of alphabet in the given alien language. For example, if the alphabet size is 5, then there can be 5 characters in words. Initially there are no edges in graph.
+
+2) Do following for every pair of adjacent words in given sorted array.
+…..a) Let the current pair of words be word1 and word2. One by one compare characters of both words and find the first mismatching characters.
+…..b) Create an edge in g from mismatching character of word1 to that of word2.
+
+3) Print topological sorting of the above created graph.
+
+Following is C++ implementation of the above algorithm.
+
+
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+struct comp
+{
+	bool operator()(pair<int,int>n,pair<int,int>m){
+	return n.second>m.second;}
+};
+int main() {
+	string s1,s2;
+	int n;
+	cin>>n;
+	
+	vector<vector<int>>x(27,vector<int>(27));
+	vector<pair<char,char>>c;
+	map<pair<char,char>,int>ma;
+	cin>>s1;
+	for(int i=0;i<n-1;i++)
+	{
+		cin>>s2;
+		int t;
+		if(s1.size()>s2.size())t=s2.size();
+		else t=s1.size();
+		for(int j=0;j<t;j++)
+		{
+			if(s1[j]!=s2[j])
+			{	if(ma[make_pair(s1[j],s2[j])]==1)continue;
+				c.push_back(make_pair(s1[j],s2[j]));
+				ma[make_pair(s1[j],s2[j])]=1;
+			}
+		
+	
+			else continue;
+		}
+		s1=s2;
+	}
+	vector<int>inc(27);
+	for(int i=0;i<27;i++){inc[i]=-1;}
+	
+	for(int i=0;i<c.size();i++)
+	{
+		if(c[i].second==c[i].first)continue;
+		if(x[c[i].second-'a'][c[i].first-'a']!=1)
+		{
+			
+			x[c[i].first-'a'][c[i].second-'a']=1;
+			if(inc[c[i].second-'a']==-1)inc[c[i].second-'a']+=2;
+			else if(inc[c[i].second-'a']>=0)inc[c[i].second-'a']++;
+			if(inc[c[i].first-'a']==-1) inc[c[i].first-'a']=0;
+		}
+	
+	}
+	priority_queue<pair<int,int>,vector<pair<int,int>>,comp>q;
+	for(int i=0;i<26;i++){if(inc[i]==0){q.push(make_pair(i,0));}}
+	vector<int >res;
+	while(!q.empty())
+	{
+		pair<int,int> temp=q.top();
+		q.pop();
+		res.push_back(temp.first);
+		inc[temp.first]=-1;
+		for(int i=0;i<26;i++)
+		{
+			if(x[temp.first][i]==1) inc[i]--;
+		}
+	for(int i=0;i<26;i++){if(inc[i]==0)q.push(make_pair(i,0));}
+	}
+	for(int i=0;i<res.size();i++)
+	{
+		char d1=res[i]+'a';
+		cout<<d1<<" ";
+	}
+	return 0;
+}
+
+

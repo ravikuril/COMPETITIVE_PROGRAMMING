@@ -1,0 +1,107 @@
+
+
+
+
+
+Example :
+
+For the above given diagrams, the corresponding input to your program will be
+
+[[53..7....], [6..195...], [.98....6.], [8...6...3], [4..8.3..1], [7...2...6], [.6....28.], [...419..5], [....8..79]]
+
+and we would expect your program to modify the above array of array of characters to
+
+[[534678912], [672195348], [198342567], [859761423], [426853791], [713924856], [961537284], [287419635], [3
+
+
+vector<vector<char>>x;
+vector<vector<char>>m;
+int N=0;
+int check(int row,int col,int num)
+{
+    int i=col;
+    int valid=1;
+                    for(int u=0;u<9;u++)
+                    {
+                        if((m[row][u]-'0')==num){return 0;} 
+                    }
+                    
+                    for(int f=0;f<9;f++)
+                    {
+                        if((m[f][i]-'0')==num){return 0;}
+                    }
+                    
+                    int r=3*(row/3);
+                    int col1=3*(i/3);
+                    
+                    for(int k1=0;k1<3;k1++)
+                        {
+                         for(int k2=0;k2<3;k2++)
+                            {
+                                if(m[r+k1][col1+k2]-'0'==num) {return 0;}
+                            }   
+                    }
+                    
+    return valid;
+            
+}
+
+int  fun(int row,int col)
+{       
+        
+        if(row>8) return 1;
+        if(col>8) return fun(row+1,0);
+        if(m[row][col]!='.') return fun(row,col+1);
+        else
+        {
+            int i;
+        for(i=1;i<=9;i++)
+                {
+                int valid=0;
+                valid=check(row,col,i);
+                if(valid)
+                    {
+                        m[row][col]=i+48;
+                        int v=fun(row,col+1);
+                        if(v==1) return 1;
+                    }
+                    
+                }
+                
+                if(i==10){m[row][col]='.'; return 0;}
+        }    
+
+}
+
+void Solution::solveSudoku(vector<vector<char> > &A) {
+N=A.size();
+m=A;
+/*for(int i=0;i<9;i++)
+{
+    vector<char>y;
+    for(int k=1;k<=9;k++)
+    {
+        int hit=0;
+        for(int j=0;j<9;j++)
+        {
+           if(A[i][j]==(k+'0')){hit=1;break;} 
+        }
+        if(hit==0){y.push_back(k+'0');}
+        
+    }
+    x.push_back(y);
+}*/
+
+fun(0,0);
+A=m;
+
+/*for(int i=0;i<9;i++)
+{
+    for(int j=0;j<3;j++)
+    {
+        cout<<x[i][j]<<" ";
+    }
+    cout<<"\n";
+}*/
+    
+}

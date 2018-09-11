@@ -1,0 +1,102 @@
+	
+Max rectangle (Function Problem)
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Given a binary matrix, Your task is to complete the function maxArea which the maximum size rectangle area in a binary-sub-matrix with all 1’s. The function takes 3 arguments the first argument is the Matrix M[ ] [ ] and the next two are two  integers n and m which denotes the size of the matrix M. Your function should return an integer denoting the area of the maximum rectangle .
+
+Input:
+The first line of input is an integer T denoting the no of test cases . Then T test cases follow. The first line of each test case are 2 integers n and m denoting the size of the matrix M . Then in the next line are n*m space separated values of the matrix M.
+
+Output:
+For each test case output will be the area of the maximum rectangle .
+
+Constraints:
+1<=T<=50
+1<=n,m<=50
+0<=M[][]<=1
+
+Example:
+Input
+1
+4 4 
+0 1 1 0 1 1 1 1 1 1 1 1 1 1 0 0
+
+Output
+8
+
+Explanation
+For the above test case the matrix will look like
+0 1 1 0
+1 1 1 1
+1 1 1 1
+1 1 0 0
+the max size rectangle is 
+1 1 1 1
+1 1 1 1
+and area is 4 *2 = 8
+int maxArea(int M[MAX][MAX],int row,int n)
+{
+    //Your code here
+    //	int n,row;
+	//cin>>row>>n;
+	vector<vector<int>>x(row,vector<int>(n));
+	
+	for(int j=0;j<row;j++){
+	for(int i=0;i<n;i++)
+	{
+		x[j][i]=M[j][i];
+	}}
+	
+	for(int j=1;j<row;j++){
+	for(int i=0;i<n;i++)
+	{
+		if(x[j-1][i]!=0&&x[j][i]!=0)x[j][i]+=x[j-1][i];
+	}}
+	
+
+	int m=0;
+	
+	for(int j=0;j<row;j++){
+		
+	stack<pair<int,int>>s;
+	
+	s.push(make_pair(x[j][0],1));
+	for(int i=1;i<n;i++)
+	{
+		if(s.top().first<=x[j][i]){s.push(make_pair(x[j][i],1));continue;}
+		int depth=0;
+		while(!s.empty()&&s.top().first>x[j][i])
+		{
+			depth+=s.top().second;
+			if(m<depth*s.top().first)m=depth*s.top().first;
+			s.pop();
+		}
+		s.push(make_pair(x[j][i],depth+1));
+		
+	}
+	//cout<<m;
+	int d=0;
+	if(!s.empty())
+	{
+		while(!s.empty())
+		{
+			d+=s.top().second;
+			if(s.top().first*d>m)m=s.top().first*d;
+			s.pop();
+		}
+	}
+	
+	}
+	
+	return m;
+    
+    
+    
+}

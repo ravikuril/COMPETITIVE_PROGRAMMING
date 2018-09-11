@@ -1,0 +1,67 @@
+Determine if a Sudoku is valid, according to: http://sudoku.com.au/TheRules.aspx
+
+The Sudoku board could be partially filled, where empty cells are filled with the character ‘.’.
+
+The input corresponding to the above configuration :
+
+["53..7....", "6..195...", ".98....6.", "8...6...3", "4..8.3..1", "7...2...6", ".6....28.", "...419..5", "....8..79"]
+
+A partially filled sudoku which is valid.
+
+    Note:
+
+        A valid Sudoku board (partially filled) is not necessarily solvable. Only the filled cells need to be validated.
+
+
+
+int Solution::isValidSudoku(const vector<string> &A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    
+    for(int i=0;i<9;i++)
+    {
+        map<char,int>hi;
+        for(int j=0;j<9;j++)
+        { char n;
+        //cout<<A[i][j];
+            
+            if(A[i][j]>='0'&&A[i][j]<='9'){n=A[i][j];
+            if(hi.find(n)!=hi.end()){ return 0;}
+            else hi[n]=1;
+            }
+        }
+        
+    }
+    for(int i=0;i<9;i++)
+    {
+        map<char,int>hi;
+        for(int j=0;j<9;j++)
+        { char n;
+            if(A[j][i]>='0'&&A[j][i]<='9'){n=A[j][i];
+            if(hi.find(n)!=hi.end()) {return 0;}
+            else hi[n]=1;
+        }}
+    }
+    int i,j;
+    for(i=0;i<9;i++)
+    {
+        for(j=0;j<9;j++)
+        if((i%3==0)&&(j%3==0))
+        {   map<char,int>h;
+            for(int k=i;k<=(i+2);k++)
+            for(int d=j;d<=(j+2);d++)
+            {
+                if(A[k][d]>='0'&&A[k][d]<='9'){
+                char x = A[k][d];
+                if(h.find(x)!=h.end())
+                {return 0 ;}
+                else h[x]=1;
+                }
+            }
+            
+        }
+    }
+    return 1;
+}

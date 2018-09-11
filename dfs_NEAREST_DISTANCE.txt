@@ -1,0 +1,116 @@
+
+
+Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
+The distance between two adjacent cells is 1.
+
+Example 1:
+Input:
+
+0 0 0
+0 1 0
+0 0 0
+
+Output:
+
+0 0 0
+0 1 0
+0 0 0
+
+Example 2:
+Input:
+
+0 0 0
+0 1 0
+1 1 1
+
+Output:
+
+0 0 0
+0 1 0
+1 2 1
+
+Note:
+
+    The number of elements of the given matrix will not exceed 10,000.
+    There are at least one 0 in the given matrix.
+    The cells are adjacent in only four directions: up, down, left and right.
+
+
+
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+    int i,j,k,n=matrix.size();
+       
+      //  cout<<n<<m;
+    vector<vector<int>> hi;
+        if(n==0)
+            return hi;
+        int m=matrix[0].size();     
+    hi = vector<vector<int>>(n,vector<int>(m));
+        for( i=0;i<n;i++)
+        {
+            fill_n(hi[i].begin(),m,-1);
+        }
+       queue<pair<int,int>> q;
+        queue<pair<int,int>> tq;
+        queue<pair<int,int>> t;
+        
+        for(i=0;i<n;i++)
+        {
+            for(j=0;j<m;j++)
+            {
+                if(matrix[i][j]==0)
+                {
+                    q.push(make_pair(i,j));
+                    hi[i][j]=0;
+                }
+            }
+        }
+        pair<int,int> tmp;
+        
+        while(!q.empty())
+        {
+         tmp = q.front();
+         i = tmp.first;
+         j = tmp.second;
+         q.pop();
+        if(i+1<n && hi[i+1][j]==-1) 
+        {
+        hi[i+1][j] = hi[i][j]+1;
+        q.push(make_pair(i+1,j));
+        }
+        if(j-1>=0 && hi[i][j-1]==-1)  
+        {
+        hi[i][j-1] = hi[i][j]+1;
+        q.push(make_pair(i,j-1));
+        }
+        if(i-1>=0 && hi[i-1][j]==-1)  
+        {
+        hi[i-1][j] = hi[i][j]+1;
+        q.push(make_pair(i-1,j));
+        }
+        if(j+1<m && hi[i][j+1]==-1)
+        {
+        hi[i][j+1] = hi[i][j]+1;
+        q.push(make_pair(i,j+1));
+        }
+            
+        }
+        
+        return hi;
+    }
+    /*void dfs(int i,int j,vector<vector<int>> &hi,vector<vector<int>> &matrix)
+    {
+    if(matrix[i][j]==0){hi[i][j]=0 ;return; }
+    if(j+1<col && matrix[i][j+1]==0||j-1>=0 && matrix[i][j-1]==0||i+1<row && matrix[i+1][j]==0||i-1>=0 && matrix[i-1][j]==0){ hi[i][j]=1;} 
+    
+        
+    if(i+1<row && hi[i+1][j]==-1) dfs(i+1,j,hi,matrix);
+    if(j-1>=0 && hi[i][j-1]==-1)   dfs(i,j-1,hi,matrix);
+    if(i-1>=0 && hi[i-1][j]==-1)  dfs(i-1,j,hi,matrix);
+    if(j+1<col && hi[i][j+1]==-1) dfs(i,j+1,hi,matrix);
+        
+              
+    }*/
+};

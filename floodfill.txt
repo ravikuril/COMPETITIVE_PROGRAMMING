@@ -1,0 +1,90 @@
+﻿
+
+Given a 2d grid map of '1's (land) and '0's (water), count the number of islands.
+ An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.
+ You may assume all four edges of the grid are all surrounded by water.
+
+Example 1:
+
+11110
+11010
+11000
+00000
+
+Answer: 1
+
+Example 2:
+
+11000
+11000
+00100
+00011
+
+Answer: 3
+
+
+class Solution {
+public:
+    queue<pair<int ,int >>hi;
+    int row,col;
+    int k=0;
+    int numIslands(vector<vector<char>>& grid) {
+        return call(grid);
+    }
+    
+    int call(vector<vector<char>>& grid)
+    {
+        int cnt=0;
+        
+        row=grid.size();
+        
+        if(row==0 )
+            return 0;
+        col=grid[0].size();
+        
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[0].size();j++)
+            {
+                if(grid[i][j]=='0') continue ;
+                else
+                {   fill(grid,i,j);
+                    cnt++;
+                }
+            }
+        }
+        
+        return cnt;
+    }
+    void fill(vector<vector<char>>& grid,int i,int j)
+    {
+        //if(k>10)
+         //   return;
+            
+          //  k++;
+            //cout<<i<<" "<<j<<"\n";
+            pair<int,int> tmp;
+            
+            grid[i][j]='0'; hi.push(make_pair(i,j));
+        
+        
+           while(!hi.empty())
+            {
+                tmp = hi.front();
+                i = tmp.first;
+                j = tmp.second;
+                hi.pop();
+                
+                if(j+1<col && grid[i][j+1]=='1')  {  grid[i][j+1]='0'; hi.push(make_pair(i,j+1)); }
+                if(i+1<row && grid[i+1][j]=='1')   {  grid[i+1][j]='0'; hi.push(make_pair(i+1,j)); }
+                if(j-1>=0 && grid[i][j-1]=='1')   {  grid[i][j-1]='0'; hi.push(make_pair(i,j-1) ); }
+                if(i-1>=0 && grid[i-1][j]=='1')   {  grid[i-1][j]='0'; hi.push(make_pair(i-1,j) ); }
+                // fill(grid,tmp.first,tmp.second);
+               
+            }
+            
+    }
+    
+    
+    
+};

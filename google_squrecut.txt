@@ -1,0 +1,53 @@
+//#include<stdlib>
+#include<iostream>
+using namespace std;
+
+int main() {
+	//code
+	int t;
+	cin>>t;
+    //	cout<<"jo";
+   for(int i=0;i<t;i++)
+    {
+        int a,b;
+        cin>>a;
+        cin>>b;
+        if(a>b){int temp=a;a=b;b=temp;}
+        int arr[a+1][b+1];
+        
+        for(int j=1;j<=a;j++)
+        {
+            for(int k=1;k<=b;k++)
+            {
+                if(k==j)arr[j][j]=1;
+                if(j==1){arr[j][k]=k;arr[k][j]=k;}
+                if(j!=1&&j!=k)arr[j][k]=0;
+            }
+        }
+        for(int j=1;j<=a;j++)
+        {
+            for(int k=1;k<=b;k++)
+            {
+                if(j<=k)
+                {
+                    if(k%j==0){arr[j][k]=k/j;}
+                    else
+                    {
+                        int temp=k-j;
+                        if(temp>=j){arr[j][k]+=arr[j][temp]+1;}
+                        else{
+                        arr[j][k]+=arr[temp][j]+1;
+                    
+                        }        
+                    }
+                }
+                
+            }
+        }
+       // for(int k=1;k<=a;k++){for(int j=1;j<=b;j++){cout<<arr[k][j]<<" ";}cout<<"\n";}
+    cout<<arr[a][b];
+	
+        
+    }
+    return 0;
+}

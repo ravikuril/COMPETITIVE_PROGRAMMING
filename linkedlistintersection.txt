@@ -1,0 +1,78 @@
+Write a program to find the node at which the intersection of two singly linked lists begins.
+
+For example, the following two linked lists:
+
+A:          a1 ? a2
+                   ?
+                     c1 ? c2 ? c3
+                   ?            
+B:     b1 ? b2 ? b3
+
+begin to intersect at node c1
+
+
+
+
+
+
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        
+        ListNode *a=headA;
+        ListNode *b=headB;
+        int counta=0,countb=0;
+        if(a==NULL) return a;
+        if(b==NULL) return b;
+        while(a!=NULL)
+        {
+            a=a->next;
+            counta++;
+        }
+        while(b!=NULL)
+        {
+            b=b->next;
+            countb++;
+        }
+        ListNode *x=headA;
+        if(counta>countb)
+        {   int temp=counta-countb; 
+            while(temp!=0)
+            {
+                x=x->next;
+                temp--;
+            }
+        }
+       ListNode *y=headB;
+        if(countb>counta)
+        {   
+            int temp=countb-counta; 
+            while(temp!=0)
+            {
+                y=y->next;
+                temp--;
+            }
+        }
+        ListNode *set=NULL;
+        int set1=0;
+        cout<<x->val<<y->val;
+        if(x->val==y->val) return x;
+        while(x!=NULL and y!=NULL)
+        {
+            if(x->val==y->val){return x;break;}
+            else{x=x->next;y=y->next;}
+        }
+        
+        if(set1==0)return set;
+    }
+};

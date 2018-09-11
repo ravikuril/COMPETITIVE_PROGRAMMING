@@ -1,0 +1,54 @@
+#partial solution hard to understand. using queue and tuple un-necessary code practice :P :P  
+
+Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks.Tasks could be done without original order. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.
+
+However, there is a non-negative cooling interval n that means between two same tasks, there must be at least n intervals that CPU are doing different tasks or just be idle.
+
+You need to return the least number of intervals the CPU will take to finish all the given tasks.
+
+Example 1:
+
+Input: tasks = ['A','A','A','B','B','B'], n = 2
+Output: 8
+Explanation: A -> B -> idle -> A -> B -> idle -> A -> B.
+
+Note:
+
+    The number of tasks is in the range [1, 10000].
+    The integer n is in the range [0, 100].
+
+
+
+
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+     vector<int> freq(26);
+        for(int i=0;i<tasks.size();i++)
+        { freq[tasks[i]-'A']+=1;}
+        tuple<int ,int ,int >tup;
+        queue<tuple<int ,int ,int>>q;
+        sort(freq.begin(),freq.end(),greater<int>());
+        for(int i=0;i<26;i++)
+        { if(freq[i]!=0)q.push(make_tuple(i,freq[i],1));}
+        tuple<int,int,int>x;
+        
+        long int res=0,count=1;
+        while(!q.empty())
+        {   x=q.front();
+         //cout<<"\n";
+            for(int i=0;i<q.size();i++)
+            {  // cout<<count<<" "<<get<1>(q.front())<<"_"<<get<2>(q.front())<<"*| ";
+                if(count==get<2>(q.front())){x=q.front();break;}
+                else   { q.push(q.front());q.pop();}
+            }
+            q.pop();
+            if(get<1>(x)==0)continue;
+            res=count;
+            if(get<2>(x)==1){get<2>(x)=count+n+1;get<1>(x)-=1;if(get<1>(x)==0&&q.empty())break;if(get<1>(x)!=0)q.push(x);count++;continue;}
+            if(get<2>(x)>=count){count=get<2>(x);get<2>(x)+=n+1;get<1>(x)-=1;if(get<1>(x)==0&&q.empty())break;if(get<1>(x)!=0)q.push(x);count++;continue;}
+            if(get<2>(x)<count){get<2>(x)=count+n+1;get<1>(x)-=1;if(get<1>(x)==0&&q.empty())break;if(get<1>(x)!=0)q.push(x);count++;continue;}
+        }
+        
+    return count;}
+};

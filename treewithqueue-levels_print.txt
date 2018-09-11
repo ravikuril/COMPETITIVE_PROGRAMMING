@@ -1,0 +1,54 @@
+
+
+Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+
+return its level order traversal as:
+
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+
+
+/
+
+**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int >> a;
+    queue<TreeNode*>b;
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        call(root,1);
+        return a;
+    }
+    void call(TreeNode* root,int l)
+    {   if(!root) return;
+        b.push(root);
+        while(!b.empty())
+        {   TreeNode* local=b.front();
+            b.pop();
+         if(l>a.size())a.push_back(vector<int>());
+         a[l-1].push_back(local->val);
+        }
+        call(root->left,l+1);
+        call(root->right,l+1);
+    }
+};

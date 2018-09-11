@@ -1,0 +1,100 @@
+  
+
+There are values to represent nodes in a graph. They are divided into two sets and . Each set has exactly values. Set is represent by . can contain any value between to (inclusive). Set is represented by . can contain any value between to (inclusive). Same value can be chosen any number of times.
+
+Here represents the edges of the graph.
+
+Your task is to print the number of vertices in the smallest and the largest connected components of the graph.
+
+Note Single nodes should not be considered in the answer.
+
+For more clarity look at the following figure.
+
+Alt text
+
+For the above graph smallest connected component is 7 and largest connected component is 17.
+
+Input Format
+
+First line contains an integer .
+Each of the next lines contain two space-separated integers, line contains and .
+
+Constraints
+
+Output Format
+
+Print two space separated integers, the number of vertices in the smallest and the largest components.
+
+Sample Input
+
+5
+1 6 
+2 7
+3 8
+4 9
+2 6
+
+Sample Output
+
+2 4
+
+Explanation
+
+The number of vertices in the smallest connected component in the graph is i.e. either or .
+The number of vertices in the largest connected component in the graph is i.e. . 
+
+
+
+
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include<limits.h>
+using namespace std;
+long int min=INT_MAX;
+long int max=INT_MIN;
+int dfs(vector<long int >&visit,int i,vector<vector<long int>>&m,long int &count)
+{
+  for(int j=0;j<m[i].size();j++)
+  {
+    if(!visit[j]&&m[i][j]!=0){visit[j]=1;count++;dfs(visit,m[i][j],m,count);}
+   
+  }
+  return count;
+}
+int main() {
+   int t;
+  cin>>t;
+  vector<vector<long int>>m(2*t+1,vector<long int>(2*t+1));
+  for(int i=0;i<t;i++)
+  {
+    int x,y;
+    cin>>x>>y;
+    m[x][y]=y;
+    m[y][x]=x;
+    }
+  for(int i=0;i<2*t;i++){for(int j=0;j<2*t;j++){cout<<m[i][j]<<" ";}cout<<"\n";}
+  vector<long int> visited(2*t+1,0);
+  long int min=INT_MAX;
+  long int max=INT_MIN;
+ 
+    for(int i=0;i<m.size();i++)
+  {   long int c=1;
+      visited[i]=1;
+      for(int j=0;j<m[i].size();j++)
+      if(!visited[j]&&m[i][j]!=0)
+              {
+                visited[j]=1; 
+                int x=dfs(visited,j,m,c);
+       
+                if(x<min)min=x;
+                if(x>max)max=x;
+              }
+    
+  }
+  cout<<min+1<<" "<<max+1;
+  return 0;
+}

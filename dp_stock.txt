@@ -1,0 +1,41 @@
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+Design an algorithm to find the maximum profit. You may complete as many transactions as you like 
+(ie, buy one and sell one share of the stock multiple times) with the following restrictions:
+
+    You may not engage in multiple transactions at the same time 
+(ie, you must sell the stock before you buy again).
+    After you sell your stock, you cannot buy stock on next day. (ie, cooldown 1 day)
+
+Example:
+
+prices = [1, 2, 3, 0, 2]
+maxProfit = 3
+transactions = [buy, sell, cooldown, buy, sell]
+
+
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        vector<int > a(prices.size()+1);
+        for(int i=prices.size()-2;i>=0;i--)
+        {
+            int max1=0;
+           // for(int k=i;k<=prices.size()-2;k++)
+            //{ 
+                int item=prices[i];
+                int sellindex=0,v=0;
+                for(int n=i+1;n<=prices.size()-1;n++)
+                {
+                        if(n+2<=prices.size()-1)v=prices[n]-item+a[n+2];
+                        else v=prices[n]-item;
+                        if(max1<v)max1=v;
+                }
+            
+            a[i]=max(max1,a[i+1]);
+        }
+        int c=*max_element(a.begin(),a.end());
+       return c;
+    }
+};

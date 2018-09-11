@@ -1,0 +1,64 @@
+Given a binary tree, find the maximum path sum.
+
+For this problem, a path is defined as any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The path must contain at least one node and does not need to go through the root.
+
+For example:
+Given the below binary tree,
+
+       1
+      / \
+     2   3
+
+Return 6. 
+
+
+
+
+
+
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int max=INT_MIN;
+    
+    int maxPathSum(TreeNode* root) {    
+        int i=  jam(root);
+        return max;
+    }
+    
+   int jam(TreeNode* root)
+    {   
+        if(!root) return 0;
+       
+        //if(temp+root->val>max1){max1=temp+root->val;}
+       
+        int x=jam(root->left);
+        int y=jam(root->right);
+       
+         int v;
+        if(x+y+root->val>max)
+            max = x+y+root->val;
+       
+        v=x+root->val;
+        if(y+root->val>v)v=y+root->val;
+        
+        if(root->val>v)
+        v=root->val;
+       
+        if(v>max)
+            max=v;
+       
+        return v;
+       
+    }
+};

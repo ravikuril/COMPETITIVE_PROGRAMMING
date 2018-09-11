@@ -1,0 +1,77 @@
+ Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
+
+get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+
+Follow up:
+Could you do both operations in O(1) time complexity?
+
+Example:
+
+LRUCache cache = new LRUCache( 2 /* capacity */ );
+
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // returns 1
+cache.put(3, 3);    // evicts key 2
+cache.get(2);       // returns -1 (not found)
+cache.put(4, 4);    // evicts key 1
+cache.get(1);       // returns -1 (not found)
+cache.get(3);       // returns 3
+cache.get(4);       // returns 4
+
+
+
+
+class LRUCache {
+public:
+    map<int,int>hi;
+    queue<int>q;
+    queue<int>x;
+    queue<int>temp;
+    int c;
+    LRUCache(int capacity) {c=capacity;}
+    
+    int get(int key) {
+        if(hi.find(key)==hi.end()) return -1;
+        if(hi[key]==INT_MIN) return -1;
+        if(hi[key]!=INT_MIN)
+        {
+            int temp=-1;
+            while(!q.empty())
+             {
+                if(q.front()!=key){x.push(q.front());q.pop();}
+                if(!q.empty()&&q.front()==key){temp=key;q.pop();}
+             }
+            while(!x.empty()){q.push(x.front());x.pop();}
+            if(temp!=-1){q.push(temp);}
+            return hi[key];
+        }
+        
+    }
+    void put(int key, int value) {
+       int x1=-1;
+        if(q.size()<c){q.push(key);hi[key]=value;return;}
+        if(q.size()==c)
+        {
+            while(!q.empty())
+                {
+                    if(!q.empty()&&q.front()==key) {x1=q.front();q.pop();}
+                    if(q.front()!=key&&!q.empty()){x.push(q.front()); if(!q.empty()) q.pop();}
+                }
+        }
+        
+        while(!x.empty()){q.push(x.front());x.pop();}
+        
+        if(x1!=-1){q.push(x1);hi[key]=value;}
+        if(x1==-1){hi[q.front()]=INT_MIN;q.pop();q.push(key);hi[key]=value; return;}
+        
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */

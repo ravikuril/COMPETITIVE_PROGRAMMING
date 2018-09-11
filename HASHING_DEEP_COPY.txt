@@ -1,0 +1,54 @@
+
+
+A linked list is given such that each node contains an additional random pointer which could point to any node in the list or NULL.
+
+Return a deep copy of the list.
+
+Example
+
+Given list
+
+   1 -> 2 -> 3
+
+with random pointers going from
+
+  1 -> 3
+  2 -> 1
+  3 -> 1
+
+You should return a deep copy of the list. The returned answer should not contain the same node as the original list, but a copy of them. The pointers in the returned list should not link to any node in the original input list.
+
+
+/**
+ * Definition for singly-linked list.
+ * struct RandomListNode {
+ *     int label;
+ *     RandomListNode *next, *random;
+ *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+ * };
+ */
+RandomListNode* Solution::copyRandomList(RandomListNode* A) {
+    map<RandomListNode*,RandomListNode*>map1;
+    RandomListNode *x,*head,*a;
+    x=NULL;
+    a=A;
+    int set=0;
+    while(A!=NULL)
+    {
+        RandomListNode *B=new RandomListNode(A->label);
+        map1[A]=B;
+        if(set==0){head=B;set=1;}
+        if(x==NULL){x=B;}
+        else {x->next=B;x=B;}
+        A=A->next;
+    }
+    x=head;
+    while(x!=NULL)
+    {
+       x->random=map1[a->random];
+       x=x->next;
+       a=a->next;
+    }
+    
+    return head;
+}

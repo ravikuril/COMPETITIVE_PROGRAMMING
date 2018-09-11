@@ -1,0 +1,34 @@
+lisequence
+
+#include <iostream>
+using namespace std;
+
+int main() {
+	// your code goes here
+	int n;
+	cin >> n;
+	int arr[2][n];
+	for(int j=0;j<n;j++)
+	{
+		cin>>arr[0][j];
+		arr[1][j]=1;
+	}
+	for(int i=0;i<n;i++)
+	{
+		for(int k=0;k<i;k++)
+		{
+		if(arr[0][k]<arr[0][i])
+		{
+			if(arr[1][i]<arr[1][k]+1)
+					{
+							arr[1][i]=arr[1][k]+1;
+					}
+		
+		}	
+		}
+	}
+	int max=-1;
+	for(int i=0;i<n;i++){if(max<arr[1][i]){max=arr[1][i];}}
+	cout<<max;
+	return 0;
+}

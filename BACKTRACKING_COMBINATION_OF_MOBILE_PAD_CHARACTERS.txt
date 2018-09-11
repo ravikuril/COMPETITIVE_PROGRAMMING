@@ -1,0 +1,53 @@
+
+
+Given a digit string, return all possible letter combinations that the number could represent.
+
+A mapping of digit to letters (just like on the telephone buttons) is given below.
+
+The digit 0 maps to 0 itself.
+The digit 1 maps to 1 itself.
+
+Input: Digit string "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+
+Make sure the returned strings are lexicographically sorted.
+
+
+
+vector<string>res;
+string temp="";
+void fun(vector<string>&arr,int row)
+{   
+    for(int i=0;i<arr[row].size();i++)
+    {   temp+=(arr[row][i]);
+        if(arr.size()-1==row)
+        {
+            res.push_back(temp); temp.pop_back();
+            continue;
+        }
+       fun(arr,row+1);
+       temp.pop_back();
+    }
+}
+vector<string> Solution::letterCombinations(string A) {
+    string s0="0",s1="1",s2="abc",s3="def",s4="ghi",s5="jkl",s6="mno",s7="pqrs",s8="tuv",s9="wxyz";
+    vector<string>x;
+    x.push_back(s0);
+    x.push_back(s1);
+    x.push_back(s2);
+    x.push_back(s3);
+    x.push_back(s4);
+    x.push_back(s5);
+    x.push_back(s6);
+    x.push_back(s7);
+    x.push_back(s8);
+    x.push_back(s9);
+    vector<string>arr;
+    res.clear();
+    for(int i=0;i<A.size();i++)
+    {
+     arr.push_back(x[A[i]-'0']);   
+    }
+    fun(arr,0);
+    return res;
+    }

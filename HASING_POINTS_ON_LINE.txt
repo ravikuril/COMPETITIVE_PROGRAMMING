@@ -1,0 +1,81 @@
+
+
+Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.
+
+Sample Input :
+
+(1, 1)
+(2, 2)
+
+Sample Output :
+
+2
+
+You will be give 2 arrays X and Y. Each point is represented by (X[i], Y[i])
+
+
+
+
+int Solution::maxPoints(vector<int> &A, vector<int> &B) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    int max=1;
+    if(A.size()==0) return 0;
+    
+    for(int i=0;i<A.size();i++)
+    {    map<pair<float,float>,int>hi;
+        int h=0,v=0;
+        int max1=0;
+        for(int j=i+1;j<B.size();j++)
+        {   
+            int f,s;
+            f=A[j]-A[i];
+            s= B[j]-B[i];
+    
+        if(A[j]==A[i]&&B[j]==B[i]){ h++; continue;}
+            if(A[j]==A[i]){ v++; continue;}
+            int set=0;
+            if(f<0 &&s>0){set=1;}
+            if(s<0&&f>0){set=1;}
+            
+            f=abs(f);
+            s=abs(s);
+            int x;
+            if(f>=s)x=__gcd(f,s);
+            if(s>=f)x=__gcd(s,f);
+            
+            if(x!=0){f=f/x;
+            s=s/x;}
+            
+            if(set==1){f*=-1;}
+             //cout<<f<<" "<<s<<"\n";
+           
+            if(hi.find(make_pair(f,s))==hi.end()){
+                hi[make_pair(f,s)]=2;
+                if(max1<hi[make_pair(f,s)])
+                {
+                    max1=hi[make_pair(f,s)];
+                }
+                
+            }
+            else 
+            {
+                hi[make_pair(f,s)]++;
+                if(max1<hi[make_pair(f,s)])
+                {
+                    max1=hi[make_pair(f,s)];
+                }
+                
+             }
+             
+            }
+            if(max1+h<v+h+1){max1=v+h+1;}
+            else {max1+=(h);}
+            if(max<max1)max=max1;
+        }
+    
+    //cout<<max;
+    return max;
+}

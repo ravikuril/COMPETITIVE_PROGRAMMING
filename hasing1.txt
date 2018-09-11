@@ -1,0 +1,41 @@
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+Example:
+Given nums = [2, 7, 11, 15], target = 9,
+
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+     
+       vector<int > hi;
+        unordered_map <int, int > hi1;
+        for(int i=0;i<nums.size();i++)
+        {
+            hi1[nums[i]]=i;
+        }
+     //   unordered_map <int ,int >::iterator yo=hi1.begin();
+      //  for(;yo!=hi1.end();yo++)
+      //      cout<<yo->first<<" "<<yo->second<<"\n";
+        for(int j=0;j<nums.size();j++)
+        {
+            int find_num=target-nums[j];
+        if(hi1.find(find_num)==hi1.end())
+        {
+        }
+            else{
+                if(hi1[find_num]!=0){
+                hi.push_back(j);
+                hi.push_back(hi1[find_num]);
+                break;
+                }
+            //cout<<j;
+        }
+        }
+        
+    return hi;}
+};

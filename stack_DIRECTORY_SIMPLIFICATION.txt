@@ -1,0 +1,53 @@
+Given an absolute path for a file (Unix-style), simplify it.
+
+For example,
+path = "/home/", => "/home"
+path = "/a/./b/../../c/", => "/c"
+class Solution {
+public:
+    string simplifyPath(string path) {
+    string A=path;
+    stack<string > hi;
+    for(int i=0;i<A.size();i++)
+    {
+        if(A[i]==A[i+1]&&A[i+1]=='/'||A[i]=='/'&&i==A.size()-1){continue;}
+        if(A[i]=='/')
+        {   int x=i+1;
+            i++;
+            while(i<A.size() && A[i]!='/' || (i==A.size()-1)&&A[i]!='/' )
+            {   i++;}
+            
+                 i=i-1;
+                int y=i-x+1;
+                string u=A.substr(x,y);
+        // cout<<u<<" ";
+                string s1=".",s2="..";
+                if(u==s1) continue;
+                if(u==s2)
+                {if(!hi.empty()){hi.pop(); }continue;}
+            
+                hi.push(u); 
+                continue;
+            }
+           }
+            
+    
+    char c='/';
+    string s;
+    stack<string> hi2;
+    if(hi.empty()) return s+c;
+    while(!hi.empty()){hi2.push(hi.top());hi.pop();}
+    
+    while(!hi2.empty())
+    {   s+=c;
+        s+=hi2.top();
+        
+        
+        hi2.pop();
+    }
+    
+    return s; 
+    }
+        
+    
+};
